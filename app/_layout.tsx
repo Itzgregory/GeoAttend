@@ -1,6 +1,6 @@
 import { Slot, Stack } from 'expo-router';
 import React from "react";
-import { Colors } from "../../MyApp/src/shared/config/constants/colors";
+import { Colors } from "../src/constants/lib/themes/themes";
 import { StatusBar, useColorScheme } from 'react-native';
 
 export default function RootLayout() {
@@ -15,8 +15,13 @@ export default function RootLayout() {
             headerTintColor: theme.title,
         }}>
           <Stack.Screen name='index' options={{ title: 'Home', headerShown: false }} />
+          <Stack.Screen name='onboarding/onboarding1' options={{headerShown: false }} />
+          <Stack.Screen name='onboarding/onboarding2' options={{headerShown: false }} />
+          <Stack.Screen name='onboarding/onboarding3' options={{headerShown: false }} />
+          <Stack.Screen name='main/welcome' options={{headerShown: false }} />
+          {/* <Stack.Screen name="main" options={{ headerShown: false }} /> */}
           <Stack.Screen name='login' options={{ title: 'Login', headerShown: true }} />
-          <Stack.Screen name='register' options={{ title: 'Register', headerShown: true }} />
+          <Stack.Screen name='register' options={{headerShown: false }} />
       </Stack>
     </>
   );

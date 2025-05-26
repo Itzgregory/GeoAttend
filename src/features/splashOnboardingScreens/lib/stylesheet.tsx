@@ -1,14 +1,16 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StatusBar, StyleSheet } from 'react-native';
+const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+
 
 export  const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 24,
-    alignItems: 'center',
-    width: '100%',
-    height: "100%",
-    backgroundColor: '#00544F',
-  },
+     flex: 1,
+     backgroundColor: "#FDFFF2",
+     paddingTop: StatusBar.currentHeight || 44,
+     padding: 5,
+     width: screenWidth,
+     height: screenHeight,
+   },
   main: {
     flex: 1,
     justifyContent: "center",

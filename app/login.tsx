@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { styles } from "../stylesheet";
+import { styles } from "../src/features/splashOnboardingScreens/lib/stylesheet";
 import { styled } from "nativewind";
 import { Link } from "expo-router";
 

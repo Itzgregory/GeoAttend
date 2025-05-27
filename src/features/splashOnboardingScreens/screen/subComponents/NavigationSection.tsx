@@ -1,7 +1,7 @@
 import { router } from "expo-router";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
-import DynamicButton from "../../../../constants/ui/button";
+import DynamicButton from "../../../../constants/ui/actionButtons/button";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -23,6 +23,35 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
   isLastStep,
 }) => {
   const isFirstStep = currentStep === 1;
+  const [isNextDisabled, setIsNextDisabled] = useState(false);
+  const [isBackDisabled, setIsBackDisabled] = useState(false);
+  const [isGetStartedDisabled, setIsGetStartedDisabled] = useState(false);
+
+  useEffect(() => {
+    setIsNextDisabled(false);
+    setIsBackDisabled(false);
+    setIsGetStartedDisabled(false);
+  }, [currentStep]);
+
+  const handleNextPress = () => {
+    setIsNextDisabled(true);
+    router.push(nextPath);
+  };
+
+  const handleBackPress = () => {
+    setIsBackDisabled(true);
+    handleBack();
+  };
+
+  const handleSkipPress = () => {
+    setIsBackDisabled(true); 
+    router.replace("/main/welcome"); 
+  };
+
+  const handleGetStartedPress = () => {
+    setIsGetStartedDisabled(true);
+    router.replace("/main/welcome"); 
+  };
 
   const renderActionButton = () => {
     if (isLastStep) {
@@ -30,17 +59,18 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
         <DynamicButton
           isGreen={false}
           label="Get Started"
-          onPress={() => router.push("/main/welcome")}
-          style={{}} 
-          isDisabled={false}        
+          onPress={handleGetStartedPress}
+          style={{}}
+          isDisabled={isGetStartedDisabled}
         />
       );
     }
     return (
       <TouchableOpacity
         style={[styles.nextButton, { width: buttonSize, height: buttonSize }]}
-        onPress={() => router.push(nextPath)}
+        onPress={handleNextPress}
         activeOpacity={0.8}
+        disabled={isNextDisabled}
       >
         <Text style={styles.arrowText}>{">"}</Text>
       </TouchableOpacity>
@@ -48,54 +78,56 @@ const NavigationSection: React.FC<NavigationSectionProps> = ({
   };
 
   return (
-  <View style={styles.bottomSection}>
-    {isLastStep ? (
-      <>
-        {/* Get Started button on its own row */}
-        <DynamicButton
-          style={styles.getStartedButton}
-          isGreen={true}
-          label="Get Started"
-          onPress={() => router.push("/main/welcome")} 
-          isDisabled={false}        
+    <View style={styles.bottomSection}>
+      {isLastStep ? (
+        <>
+          {/* Get Started button on its own row */}
+          <DynamicButton
+            style={styles.getStartedButton}
+            isGreen={true}
+            label="Get Started"
+            onPress={handleGetStartedPress}
+            isDisabled={isGetStartedDisabled}
           />
 
-        {/* Navigation container for the Back button (replacing Skip) */}
+          {/* Navigation container for the Back button (replacing Skip) */}
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity
+              onPress={handleBackPress}
+              style={[styles.skipButton, isBackDisabled && styles.disabledButton]}
+              activeOpacity={0.7}
+              disabled={isBackDisabled}
+            >
+              <Text style={[styles.skipText, isBackDisabled && styles.disabledText]}>Back</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      ) : (
         <View style={styles.navigationContainer}>
-          <TouchableOpacity
-            onPress={handleBack}
-            style={styles.skipButton}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.skipText}>Back</Text>
-          </TouchableOpacity>
+          {isFirstStep ? (
+            <TouchableOpacity
+              onPress={handleSkipPress}
+              style={[styles.skipButton, isBackDisabled && styles.disabledButton]}
+              activeOpacity={0.7}
+              disabled={isBackDisabled}
+            >
+              <Text style={[styles.skipText, isBackDisabled && styles.disabledText]}>Skip</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={handleBackPress}
+              style={[styles.skipButton, isBackDisabled && styles.disabledButton]}
+              activeOpacity={0.7}
+              disabled={isBackDisabled}
+            >
+              <Text style={[styles.skipText, isBackDisabled && styles.disabledText]}>Back</Text>
+            </TouchableOpacity>
+          )}
+          {renderActionButton()}
         </View>
-      </>
-    ) : (
-      <View style={styles.navigationContainer}>
-        {isFirstStep ? (
-          <TouchableOpacity
-            onPress={() => router.push("/main/welcome")}
-            style={styles.skipButton}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.skipText}>Skip</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={handleBack}
-            style={styles.skipButton}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.skipText}>Back</Text>
-          </TouchableOpacity>
-        )}
-        {renderActionButton()}
-      </View>
-    )}
-  </View>
-);
-
+      )}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -110,10 +142,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-  },
-  lastStepContainer: {
-    width: "100%",
-    alignItems: "center",
   },
   skipButton: {
     paddingVertical: 12,
@@ -143,6 +171,13 @@ const styles = StyleSheet.create({
   },
   getStartedButton: {
     width: "100%",
+    marginBottom: 16, 
+  },
+  disabledButton: {
+    opacity: 0.5,
+  },
+  disabledText: {
+    color: "#B0B0B0",
   },
 });
 

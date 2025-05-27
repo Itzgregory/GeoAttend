@@ -1,9 +1,9 @@
 import axiosInstance from "../../../utils/config/axios";
-import RegistrationFormData from "../type/registerationTypes";
+import LoginFormData from "../type/loginTypes";
 
-export const registerUser = async (data: RegistrationFormData): Promise<any> => {
+export const loginUser = async (data: LoginFormData): Promise<any> => {
   try {
-    const response = await axiosInstance.post("/users/register", data);
+    const response = await axiosInstance.post("users/login", data);
     console.log("Registration API response:", response.data);
     return response; 
   } catch (error) {

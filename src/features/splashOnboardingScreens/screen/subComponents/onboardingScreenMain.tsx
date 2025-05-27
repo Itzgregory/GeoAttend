@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Dimensions, StatusBar } from "react-native";
-import AnimationSection from "../../../../constants/ui/AnimationSection";
+import AnimationSection from "../../../../constants/ui/animations/AnimationSection";
 import ContentSection from "./ContentSection";
 import DotIndicator from "./DotIndicator";
 import NavigationSection from "./NavigationSection";

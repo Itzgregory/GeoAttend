@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -16,23 +16,27 @@ const BackButton: React.FC<BackButtonProps> = ({
   style,
   iconColor = "#FFFFFF",
   backgroundColor = "#00544F",
-  size = 44,
+  size = 30,
 }) => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const handlePress = () => {
-    onPress ? onPress() : router.back();
+    if (!isDisabled) {
+      setIsDisabled(true);
+      onPress ? onPress() : router.back();
+    }
   };
 
-  const topPosition = insets.top + 20; 
+  const topPosition = insets.top + 20;
 
   return (
     <TouchableOpacity
       style={[
         styles.backButton,
         {
-          backgroundColor,
+          backgroundColor: isDisabled ? "#A9A9A9" : backgroundColor,
           width: size,
           height: size,
           borderRadius: size / 2,
@@ -41,9 +45,12 @@ const BackButton: React.FC<BackButtonProps> = ({
         style,
       ]}
       onPress={handlePress}
-      activeOpacity={0.7}
+      disabled={isDisabled} 
+      activeOpacity={isDisabled ? 1 : 0.7} 
     >
-      <Text style={[styles.backButtonText, { color: iconColor }]}>←</Text>
+      <Text style={[styles.backButtonText, { color: iconColor }]}>
+        {"<"}
+      </Text>
     </TouchableOpacity>
   );
 };

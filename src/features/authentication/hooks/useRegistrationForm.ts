@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import { handleRegistration } from "../service/registrationService";
-import RegistrationFormData from "../type/registerationTypes";
+import RegistrationFormData from "../type/registrationTypes";
+import useCustomBackHandler from "../../../constants/hooks/useCustomBackHandler";
+
 
 interface UseRegisterFormReturn {
   email: string;
@@ -47,12 +49,29 @@ const useRegisterForm = (): UseRegisterFormReturn => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<"success" | "error" | null>(null);
 
-  const allInputFilled = firstName.trim() !== "" && 
-                        lastName.trim() !== "" && 
-                        email.trim() !== "" && 
-                        password.trim() !== "" && 
-                        confirmPassword.trim() !== "" &&
-                        acceptedTerms;
+  useCustomBackHandler({ replaceRoute: "/main/welcome" });
+
+  const allInputFilled =
+    firstName.trim() !== "" &&
+    lastName.trim() !== "" &&
+    email.trim() !== "" &&
+    password.trim() !== "" &&
+    confirmPassword.trim() !== "" &&
+    acceptedTerms;
+
+  const resetForm = () => {
+    setEmail("");
+    setFirstName("");
+    setLastName("");
+    setPassword("");
+    setConfirmPassword("");
+    setShowPassword(false);
+    setShowConfirmedPassword(false);
+    setAcceptedTerms(false);
+    setError(null);
+    setSuccessMessage(null);
+    console.log("Registration form reset");
+  };
 
   const onSubmit = async () => {
     const formData: RegistrationFormData = { email, firstName, lastName, password, confirmPassword, termsAccepted: acceptedTerms };
@@ -64,8 +83,9 @@ const useRegisterForm = (): UseRegisterFormReturn => {
 
     try {
       const response = await handleRegistration(formData);
+      console.log("Registration API response:", response);
       if (response.success) {
-        setSuccessMessage(response.message);
+        setSuccessMessage(response.message || "Registration successful! Please verify your email.");
         setModalType("success");
         setModalVisible(true);
       } else {
@@ -93,9 +113,10 @@ const useRegisterForm = (): UseRegisterFormReturn => {
   const handleModalConfirm = async () => {
     setModalVisible(false);
     if (modalType === "success" && successMessage) {
-      router.push({
-        pathname: "/main/verify",
-        params: { email, userId: (await handleRegistration({ email, firstName, lastName, password, confirmPassword, termsAccepted: acceptedTerms })).data.id },
+      resetForm();
+      router.replace({
+        pathname: "main/authentication/accountVerification",
+        params: { email },
       });
     }
   };

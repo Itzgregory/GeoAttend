@@ -1,5 +1,5 @@
 import { Modal, StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import DynamicButton from "./button";
+import DynamicButton from "../actionButtons/button";
 import { useState } from "react";
 import React from "react";
 
@@ -11,6 +11,8 @@ interface MessageModalProps {
   onConfirm?: () => void;
   confirmLabel?: string;  
 }
+
+export type MessageModalType = "success" | "error";
 
 export default function MessageModal({ visible, message, type, onClose, onConfirm, confirmLabel = type === "success" ? "Proceed" : "Retry" }: MessageModalProps) {
   const getModalStyles = () => {

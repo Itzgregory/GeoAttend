@@ -1,5 +1,5 @@
-import RegistrationFormData from "../type/registerationTypes";
-import { registerUser } from "../api/registerationAuth";
+import RegistrationFormData from "../type/registrationTypes";
+import { registerUser } from "../api/registrationAuth";
 
 export const handleRegistration = async (data: RegistrationFormData): Promise<any> => {
   if (data.password !== data.confirmPassword) {

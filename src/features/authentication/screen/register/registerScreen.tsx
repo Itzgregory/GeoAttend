@@ -1,16 +1,16 @@
 import { Dimensions, StyleSheet, ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { User, Mail, Eye, EyeOff, Check } from "lucide-react-native"; 
-import { DotPattern } from "../../../constants/ui/patternBg";
-import InputField from "../../../constants/ui/inputField";
-import ThemedView from "../../../constants/ui/themedView";
-import ContentSection from "../../splashOnboardingScreens/screen/subComponents/ContentSection";
-import BackButton from "../../../constants/ui/BackButton";
-import AnimationSection from "../../../constants/ui/AnimationSection";
-import DynamicButton from "../../../constants/ui/button";
-import useRegisterForm from "../hooks/useRegisterationForm";
+import { DotPattern } from "../../../../constants/ui/backgrounds/patternBg";
+import InputField from "../../../../constants/ui/inputs/inputField";
+import ThemedView from "../../../../constants/ui/themes/themedView";
+import ContentSection from "../../../splashOnboardingScreens/screen/subComponents/ContentSection";
+import BackButton from "../../../../constants/ui/navigation/BackButton";
+import AnimationSection from "../../../../constants/ui/animations/AnimationSection";
+import DynamicButton from "../../../../constants/ui/actionButtons/button";
+import useRegisterForm from "../../hooks/useRegistrationForm";
 import { KeyboardAvoidingView, Platform } from "react-native";
-import MessageModal from "../../../constants/ui/successModal";
+import MessageModal from "../../../../constants/ui/modals/successModal";
 import { JSX, useEffect } from "react";
 import React from "react";
 
@@ -47,7 +47,7 @@ export default function RegisterScreen() {
   } = useRegisterForm();
 
   const handleBack = () => {
-    router.push('/main/welcome');
+    router.replace('/main/welcome');
   };
 
   const renderActionButton = (): JSX.Element => {
@@ -88,9 +88,19 @@ export default function RegisterScreen() {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
-          <DotPattern /> 
           <BackButton onPress={handleBack}/>
+          <DotPattern /> 
           
+          
+          <ContentSection 
+            title="Let's get started 🎉"
+            subtitle="Create an account to continue with GeoAttend"
+            containerStyle={{ marginTop: 20, marginBottom: 20}} 
+            textContainerStyle={{width: '100%' }}
+            titleStyle={{ fontSize: 22, alignSelf:'flex-start' }}
+            subtitleStyle={{justifyContent:'center' }}
+          />
+
           <AnimationSection 
             animationSource={require("../../../../assets/welcomeScreen.json")} 
             animationStyle={{
@@ -99,20 +109,11 @@ export default function RegisterScreen() {
             }}
             containerStyle={{
               width: '80%',  
-              height: 300,   
+              height: 100,   
               borderRadius: 40,
-              marginTop: 20,
               alignSelf: 'center',
             }}
             loop={true}
-          />
-          
-          <ContentSection 
-            title="Let's get started 🎉"
-            subtitle="Create an account to continue with GeoAttend"
-            containerStyle={{ marginTop: 20, marginBottom: 20}} 
-            textContainerStyle={{width: '100%' }}
-            titleStyle={{ fontSize: 22, justifyContent:'flex-start' }}
           />
 
           {error && <Text style={styles.errorText}>{error}</Text>}

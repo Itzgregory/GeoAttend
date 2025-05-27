@@ -14,14 +14,15 @@ export default function RootLayout() {
             headerStyle: { backgroundColor: theme.navBackground },
             headerTintColor: theme.title,
         }}>
+          <Stack.Screen name="exit" options={{ headerShown: false, gestureEnabled: false }} />
           <Stack.Screen name='index' options={{ title: 'Home', headerShown: false }} />
           <Stack.Screen name='onboarding/onboarding1' options={{headerShown: false }} />
           <Stack.Screen name='onboarding/onboarding2' options={{headerShown: false }} />
           <Stack.Screen name='onboarding/onboarding3' options={{headerShown: false }} />
           <Stack.Screen name='main/welcome' options={{headerShown: false }} />
-          {/* <Stack.Screen name="main" options={{ headerShown: false }} /> */}
-          <Stack.Screen name='login' options={{ title: 'Login', headerShown: true }} />
-          <Stack.Screen name='register' options={{headerShown: false }} />
+          <Stack.Screen name='main/authentication/login' options={{headerShown: false }} />
+          <Stack.Screen name='main/authentication/register' options={{headerShown: false }} />
+          <Stack.Screen name='main/authentication/accountVerification' options={{headerShown: false }} />
       </Stack>
     </>
   );

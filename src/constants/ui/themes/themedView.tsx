@@ -1,5 +1,5 @@
 import React from "react";
-import { Colors } from "../lib/themes/themes";
+import { Colors } from "../../lib/themes/themes";
 import { ScrollView, View, useColorScheme } from 'react-native';
 
 

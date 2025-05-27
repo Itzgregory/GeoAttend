@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { StyleSheet, StatusBar, Dimensions, TouchableOpacity, Text } from "react-native";
 import { useRouter } from "expo-router";
 import ContentSection from "./subComponents/ContentSection";
-import ThemedView from "../../../constants/ui/themedView";
-import DynamicButton from "../../../constants/ui/button";
-import AnimationSection from "../../../constants/ui/AnimationSection";
-import {DotPattern} from '../../../constants/ui/patternBg';
+import ThemedView from "../../../constants/ui/themes/themedView";
+import DynamicButton from "../../../constants/ui/actionButtons/button";
+import AnimationSection from "../../../constants/ui/animations/AnimationSection";
+import {DotPattern} from '../../../constants/ui/backgrounds/patternBg';
 
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -58,26 +58,37 @@ export default function Welcome() {
       <DynamicButton
             isGreen={true}
             label="Create an Account"
-            onPress={() => router.push("/register")} 
+            onPress={() => router.push("main/authentication/register")} 
             isDisabled={false}          
         />
 
       <DynamicButton
             isGreen={false}
             label="Continue as Guest"
-            onPress={() => router.push("/guest")}
+            onPress={() => router.push("main/authentication/guest")}
             style={styles.button} 
             isDisabled={false}       
         />
 
         <TouchableOpacity
-            onPress={() => router.push("/login")}
+            onPress={() => router.push("main/authentication/login")}
             style={styles.skipButton}
             activeOpacity={0.7}
             >
             <Text style={styles.skipText}>
                 Already have an account? 
                 <Text style={styles.loginText}> Login</Text>
+            </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            onPress={() => router.push("main/authentication/accountVerification")}
+            style={styles.skipButton}
+            activeOpacity={0.7}
+            >
+            <Text style={styles.skipText}>
+                account verification
+                <Text style={styles.loginText}> Click</Text>
             </Text>
         </TouchableOpacity>
 

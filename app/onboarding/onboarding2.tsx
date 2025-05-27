@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from "expo-router";
-import OnboardingScreen2 from '../../src/features/splashOnboardingScreens/screen/oboardingScreen2'
+import OnboardingScreen2 from '../../src/features/splashOnboardingScreens/screen/onboardingScreen2'
 
 const onboarding2 = () => {
   return (

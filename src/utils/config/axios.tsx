@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAuthToken, isTokenValid, clearAuthData } from "./authUtils";
+import { getAuthToken, isTokenValid, clearAuthData } from "../../features/authentication/utils/authUtils";
 
 const API_BASE_URL = 'https://dev-geoattend.onrender.com/api'; 
 

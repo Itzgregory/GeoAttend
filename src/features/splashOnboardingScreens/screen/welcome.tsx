@@ -80,18 +80,6 @@ export default function Welcome() {
                 <Text style={styles.loginText}> Login</Text>
             </Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-            onPress={() => router.push("main/authentication/accountVerification")}
-            style={styles.skipButton}
-            activeOpacity={0.7}
-            >
-            <Text style={styles.skipText}>
-                account verification
-                <Text style={styles.loginText}> Click</Text>
-            </Text>
-        </TouchableOpacity>
-
     </ThemedView>
   );
 }
@@ -109,7 +97,7 @@ const styles = StyleSheet.create({
   button:{
     backgroundColor: "#FDFFF2",
   },
-    skipButton: {
+  skipButton: {
     paddingVertical: 12,
     paddingHorizontal: 16,
   },

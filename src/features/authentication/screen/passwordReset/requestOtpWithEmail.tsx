@@ -8,33 +8,23 @@ import ContentSection from "../../../splashOnboardingScreens/screen/subComponent
 import BackButton from "../../../../constants/ui/navigation/BackButton";
 import AnimationSection from "../../../../constants/ui/animations/AnimationSection";
 import DynamicButton from "../../../../constants/ui/actionButtons/button";
-import useRegisterForm from "../../hooks/useRegistrationForm";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import MessageModal from "../../../../constants/ui/modals/successModal";
 import { JSX, useEffect } from "react";
 import React from "react";
+import useLoginForm from "../../hooks/useLoginForm";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-export default function RegisterScreen() {
+export default function LoginScreen() {
   const router = useRouter();
   const {
     email,
     setEmail,
-    firstName,
-    setFirstName,
-    lastName,
-    setLastName,
     password,
     setPassword,
-    confirmPassword,
-    setConfirmPassword,
     showPassword,
     setShowPassword,
-    showConfirmedPassword,
-    setShowConfirmedPassword,
-    acceptedTerms,
-    setAcceptedTerms,
     error,
     successMessage,
     loading,
@@ -44,7 +34,7 @@ export default function RegisterScreen() {
     setModalVisible,
     modalType,
     handleModalConfirm,
-  } = useRegisterForm();
+  } = useLoginForm();
 
   const handleBack = () => {
     router.replace('/main/welcome');
@@ -54,7 +44,7 @@ export default function RegisterScreen() {
     return (
       <DynamicButton
         isGreen={true}
-        label="Create a Free Account"
+        label="Next"
         onPress={onSubmit}
         style={{ marginTop: 20, marginBottom: 20 }}
         isDisabled={!allInputFilled || loading}
@@ -65,16 +55,11 @@ export default function RegisterScreen() {
   useEffect(() => {
     return () => {
       setEmail("");
-      setFirstName("");
-      setLastName("");
       setPassword("");
-      setConfirmPassword("");
       setShowPassword(false);
-      setShowConfirmedPassword(false);
-      setAcceptedTerms(false);
       setModalVisible(false);
     };
-  }, [setEmail, setFirstName, setLastName, setPassword, setConfirmPassword, setShowPassword, setShowConfirmedPassword, setAcceptedTerms, setModalVisible]);
+  }, [setEmail, setPassword, setShowPassword, setModalVisible]);
 
   return (
     <ThemedView style={styles.container}>
@@ -83,26 +68,25 @@ export default function RegisterScreen() {
         style={styles.keyboardAvoidingView}
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
       >
+        <DotPattern /> 
         <ScrollView 
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
           <BackButton onPress={handleBack}/>
-          <DotPattern /> 
-          
           
           <ContentSection 
-            title="Let's get started 🎉"
-            subtitle="Create an account to continue with GeoAttend"
+            title="Welcome Back"
+            subtitle="Enter your Details to Continue"
             containerStyle={{ marginTop: 20, marginBottom: 20}} 
             textContainerStyle={{width: '100%' }}
             titleStyle={{ fontSize: 22, alignSelf:'flex-start' }}
-            subtitleStyle={{justifyContent:'center' }}
+            subtitleStyle={{alignSelf: 'flex-start' }}
           />
 
           <AnimationSection 
-            animationSource={require("../../../../../assets/welcomeScreen.json")} 
+            animationSource={require("../../../../../assets/login.json")} 
             animationStyle={{
               width: '100%',
               height: '100%',
@@ -117,25 +101,6 @@ export default function RegisterScreen() {
           />
 
           {error && <Text style={styles.errorText}>{error}</Text>}
-
-          <InputField
-            label="First Name"
-            placeholder="Enter First Name"
-            icon={<User size={20} color="#6B7280" />}
-            iconPosition="left"
-            value={firstName}
-            onChangeText={setFirstName}
-            style={{marginTop: 20}}
-          />
-
-          <InputField
-            label="Last Name"
-            placeholder="Enter Last Name"
-            icon={<User size={20} color="#6B7280" />}
-            iconPosition="left"
-            value={lastName} 
-            onChangeText={setLastName}
-          />
 
           <InputField
             label="Email"
@@ -159,53 +124,24 @@ export default function RegisterScreen() {
             onIconPress={() => setShowPassword(!showPassword)}
           />
 
-          <InputField
-            label="Confirm Password"
-            placeholder="Confirm your password"
-            icon={showConfirmedPassword ? <EyeOff size={20} color="#6B7280" /> : <Eye size={20} color="#6B7280" />}
-            iconPosition="right"
-            secureTextEntry={!showConfirmedPassword}
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            onIconPress={() => setShowConfirmedPassword(!showConfirmedPassword)}
-          />
-
-          <TouchableOpacity 
-            style={styles.checkboxContainer} 
-            onPress={() => setAcceptedTerms(!acceptedTerms)}
-            activeOpacity={0.7}
-          >
-            <View style={[styles.checkbox, acceptedTerms && styles.checkboxChecked]}>
-              {acceptedTerms && <Check size={16} color="#FFFFFF" />}
-            </View>
-            <View style={styles.termsTextContainer}>
-              <Text style={styles.termsText}>
-                I agree to the{' '}
-                <Text 
-                  style={styles.termsLink}
-                  onPress={() => console.log("Navigate to Terms & Conditions")}
-                >
-                  Terms & Conditions
-                </Text>
-                {' '}and{' '}
-                <Text 
-                  style={styles.termsLink}
-                  onPress={() => console.log("Navigate to Privacy Policy")}
-                >
-                  Privacy Policy
-                </Text>
-              </Text>
-            </View>
-          </TouchableOpacity>
-
           {renderActionButton()}
-          <View style={styles.bottomRow}>
+          
+         <View style={styles.bottomRow}>
             <TouchableOpacity
-              onPress={() => router.replace("main/authentication/login")}
+              onPress={() => router.replace("main/authentication/passwordResetEmail")}
               activeOpacity={0.7}
             >
               <Text style={styles.linkText}>
-                Have an Account? <Text style={styles.linkHighlight}> Login</Text>
+                Forgot password? <Text style={styles.linkHighlight}>Reset</Text>
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => router.replace("main/authentication/register")}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.linkText}>
+                No account? <Text style={styles.linkHighlight}>Register</Text>
               </Text>
             </TouchableOpacity>
           </View>
@@ -226,6 +162,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FDFFF2",
+    padding: 15,
   },
   keyboardAvoidingView: {
     flex: 1,
@@ -235,58 +172,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 40,
   },
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    marginVertical: 15,
-    paddingHorizontal: 4,
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: "#00544F",
-    backgroundColor: "transparent",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 12,
-    marginTop: 2,
-  },
-  checkboxChecked: {
-    backgroundColor: "#00544F",
-  },
-  termsTextContainer: {
-    flex: 1,
-  },
-  termsText: {
-    fontSize: 14,
-    color: "#374151",
-    lineHeight: 20,
-    fontFamily: "Lato",
-  },
-  termsLink: {
-    color: "#00544F",
-    fontWeight: "600",
-    textDecorationLine: "underline",
-  },
   bottomRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: 10,
+    padding: 10,
     marginTop: 20,
+    gap: 20,
   },
   linkText: {
     color: "#72777A",
-    fontSize: screenWidth > 400 ? 14 : 12,
+    fontSize: screenWidth > 400 ? 12 : 11,
     fontFamily: "Lato",
-    fontWeight: "500",
+    fontWeight: "300",
   },
   linkHighlight: {
     color: "#00544F", 
-    fontWeight: "600", 
+    fontWeight: "400", 
   },
   errorText: {
     color: "red",

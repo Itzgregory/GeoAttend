@@ -116,7 +116,7 @@ export default function OTPVerification({
 
       if (result.success) {
         showMessage(result.message || "New verification code sent!", "success");
-        setTimer(getExpirationTime(purpose)); // Reset timer
+        setTimer(getExpirationTime(purpose)); 
       } else {
         showMessage(result.message || "Failed to resend code", "error");
       }

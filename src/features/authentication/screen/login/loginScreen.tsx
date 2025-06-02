@@ -126,13 +126,13 @@ export default function LoginScreen() {
           {renderActionButton()}
           
           <View style={styles.bottomRow}>
-            {showPasswordField && (
-              <TouchableOpacity onPress={() => router.replace("main/authentication/passwordResetEmail")}>
+            {/* {showPasswordField && ( */}
+              <TouchableOpacity onPress={() => router.replace("main/authentication/requestPasswordResetOtp")}>
                 <Text style={styles.linkText}>
                   Forgot password? <Text style={styles.linkHighlight}>Reset</Text>
                 </Text>
               </TouchableOpacity>
-            )}
+            {/* )} */}
 
             <TouchableOpacity onPress={() => router.replace("main/authentication/register")}>
               <Text style={styles.linkText}>

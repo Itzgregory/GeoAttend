@@ -12,19 +12,15 @@ import { KeyboardAvoidingView, Platform } from "react-native";
 import MessageModal from "../../../../constants/ui/modals/successModal";
 import { JSX, useEffect } from "react";
 import React from "react";
-import useLoginForm from "../../hooks/useLoginForm";
+import UseRequestPasswordResetOtp from "../../hooks/useRequestPasswordResetOtpForm";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-export default function LoginScreen() {
+export default function RequestPasswordResetOtp() {
   const router = useRouter();
   const {
     email,
     setEmail,
-    password,
-    setPassword,
-    showPassword,
-    setShowPassword,
     error,
     successMessage,
     loading,
@@ -34,10 +30,10 @@ export default function LoginScreen() {
     setModalVisible,
     modalType,
     handleModalConfirm,
-  } = useLoginForm();
+  } = UseRequestPasswordResetOtp();
 
   const handleBack = () => {
-    router.replace('/main/welcome');
+    router.replace('/main/login');
   };
 
   const renderActionButton = (): JSX.Element => {
@@ -55,11 +51,9 @@ export default function LoginScreen() {
   useEffect(() => {
     return () => {
       setEmail("");
-      setPassword("");
-      setShowPassword(false);
       setModalVisible(false);
     };
-  }, [setEmail, setPassword, setShowPassword, setModalVisible]);
+  }, [setEmail, setModalVisible]);
 
   return (
     <ThemedView style={styles.container}>
@@ -113,38 +107,9 @@ export default function LoginScreen() {
             autoCapitalize="none"
           />
 
-          <InputField
-            label="Password"
-            placeholder="Enter password"
-            icon={showPassword ? <EyeOff size={20} color="#6B7280" /> : <Eye size={20} color="#6B7280" />}
-            iconPosition="right"
-            secureTextEntry={!showPassword}
-            value={password}
-            onChangeText={setPassword}
-            onIconPress={() => setShowPassword(!showPassword)}
-          />
 
           {renderActionButton()}
           
-         <View style={styles.bottomRow}>
-            <TouchableOpacity
-              onPress={() => router.replace("main/authentication/passwordResetEmail")}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.linkText}>
-                Forgot password? <Text style={styles.linkHighlight}>Reset</Text>
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => router.replace("main/authentication/register")}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.linkText}>
-                No account? <Text style={styles.linkHighlight}>Register</Text>
-              </Text>
-            </TouchableOpacity>
-          </View>
         </ScrollView>
       </KeyboardAvoidingView>
       <MessageModal
@@ -171,25 +136,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 20,
     paddingBottom: 40,
-  },
-  bottomRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    padding: 10,
-    marginTop: 20,
-    gap: 20,
-  },
-  linkText: {
-    color: "#72777A",
-    fontSize: screenWidth > 400 ? 12 : 11,
-    fontFamily: "Lato",
-    fontWeight: "300",
-  },
-  linkHighlight: {
-    color: "#00544F", 
-    fontWeight: "400", 
   },
   errorText: {
     color: "red",

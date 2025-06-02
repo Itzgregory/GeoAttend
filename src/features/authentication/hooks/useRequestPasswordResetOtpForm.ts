@@ -1,17 +1,13 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
-import LoginFormData from "../type/loginTypes";
 import useCustomBackHandler from "../../../constants/hooks/useCustomBackHandler";
-import { handleLogin } from "../service/loginService";
+import { handleRequestPasswordResetOtp } from "../service/requestPasswordResetOtpService";
+import RequestPasswordResetOtpFormData from "../type/passwordResetType";
 
 
-interface UseLoginFormReturn {
+interface UseRequestPasswordResetOtpFormReturn {
   email: string;
   setEmail: (value: string) => void;
-  password: string;
-  setPassword: (value: string) => void;
-  showPassword: boolean;
-  setShowPassword: (value: boolean) => void;
   error: string | null;
   successMessage: string | null;
   loading: boolean;
@@ -23,34 +19,29 @@ interface UseLoginFormReturn {
   handleModalConfirm: () => Promise<void>;
 }
 
-const useLoginForm = (): UseLoginFormReturn => {
+const UseRequestPasswordResetOtp = (): UseRequestPasswordResetOtpFormReturn => {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<"success" | "error" | null>(null);
 
-  useCustomBackHandler({ replaceRoute: "/main/welcome" });
+  useCustomBackHandler({ replaceRoute: "/main/login" });
 
   const allInputFilled =
-    email.trim() !== "" &&
-    password.trim() !== "" ;
+    email.trim() !== "";
 
   const resetForm = () => {
     setEmail("");
-    setPassword("");
-    setShowPassword(false);
     setError(null);
     setSuccessMessage(null);
-    console.log("Login form reset");
+    console.log("Reqest password reset otp form reset");
   };
 
   const onSubmit = async () => {
-    const formData: LoginFormData = { email, password, };
+    const formData: RequestPasswordResetOtpFormData = { email };
     setLoading(true);
     setError(null);
     setSuccessMessage(null);
@@ -58,14 +49,14 @@ const useLoginForm = (): UseLoginFormReturn => {
     setModalType(null);
 
     try {
-      const response = await handleLogin(formData);
-      console.log("Login API response:", response);
+      const response = await handleRequestPasswordResetOtp(formData);
+      console.log("Reqest password reset otp API response:", response);
       if (response.success) {
-        setSuccessMessage(response.message || "Login successful! Please verify your email.");
+        setSuccessMessage(response.message || "Reqest password reset otp successful! Please verify your email.");
         setModalType("success");
         setModalVisible(true);
       } else {
-        setError(response.message || "Login failed");
+        setError(response.message || "Reqest password reset otp failed");
         setModalType("error");
         setModalVisible(true);
       }
@@ -74,10 +65,10 @@ const useLoginForm = (): UseLoginFormReturn => {
         if ((err as any).message.includes("Network Error")) {
           setError("Network error. Please check your internet connection and try again.");
         } else {
-          setError((err as any).message || "Login failed");
+          setError((err as any).message || "Reqest password reset otp failed");
         }
       } else {
-        setError("Login failed");
+        setError("Reqest password reset otp failed");
       }
       setModalType("error");
       setModalVisible(true);
@@ -91,7 +82,7 @@ const useLoginForm = (): UseLoginFormReturn => {
     if (modalType === "success" && successMessage) {
       resetForm();
       router.replace({
-        pathname: "main/authentication/role",
+        pathname: "main/authentication/passwordResetOtpVerification",
         params: { email },
       });
     }
@@ -100,10 +91,6 @@ const useLoginForm = (): UseLoginFormReturn => {
   return {
     email,
     setEmail,
-    password,
-    setPassword,
-    showPassword,
-    setShowPassword,
     error,
     successMessage,
     loading,
@@ -116,4 +103,4 @@ const useLoginForm = (): UseLoginFormReturn => {
   };
 };
 
-export default useLoginForm;
+export default UseRequestPasswordResetOtp;

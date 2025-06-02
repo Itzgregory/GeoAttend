@@ -23,6 +23,8 @@ export default function RootLayout() {
           <Stack.Screen name='main/authentication/login' options={{headerShown: false }} />
           <Stack.Screen name='main/authentication/register' options={{headerShown: false }} />
           <Stack.Screen name='main/authentication/accountVerification' options={{headerShown: false }} />
+          <Stack.Screen name='main/authentication/requestPasswordResetOtp' options={{headerShown: false }} />
+          <Stack.Screen name='main/authentication/passwordResetOtpVerification' options={{headerShown: false }} />
       </Stack>
     </>
   );

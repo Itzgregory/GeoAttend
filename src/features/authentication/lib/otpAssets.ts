@@ -4,7 +4,6 @@ export const prepareOtpData = (email: string, purpose: string) => {
 
 const expirationTimes: Record<string, number> = {
   verification: 300, 
-  password_reset: 600, 
   forgot_password: 600, 
 };
 

@@ -17,7 +17,8 @@ const DotIndicator: React.FC<DotIndicatorProps> = ({ currentStep, totalSteps }) 
             styles.dot,
             {
               backgroundColor: i === currentStep ? "#00544F" : "#E5E5E5",
-              transform: [{ scale: i === currentStep ? 1.2 : 1 }],
+              width: i === currentStep ? 30 : 17, 
+              transform: [{ scale: i === currentStep ? 1.1 : 1 }],
             },
           ]}
         />
@@ -39,7 +40,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   dot: {
-    width: 17,
     height: 10,
     borderRadius: 4,
   },

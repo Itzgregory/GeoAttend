@@ -3,8 +3,8 @@ export const prepareOtpData = (email: string, purpose: string) => {
 };
 
 const expirationTimes: Record<string, number> = {
-  verification: 300, 
-  forgot_password: 600, 
+  verification: 100, 
+  forgot_password: 100, 
 };
 
 export const getExpirationTime = (purpose: string) => expirationTimes[purpose] || 300;

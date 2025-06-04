@@ -1,6 +1,6 @@
-import { Dimensions, StyleSheet, ScrollView, View, Text, TouchableOpacity } from "react-native";
+import { Dimensions, StyleSheet, ScrollView, View, Text } from "react-native";
 import { useRouter } from "expo-router";
-import { User, Mail, Eye, EyeOff, Check } from "lucide-react-native"; 
+import { Mail } from "lucide-react-native"; 
 import { DotPattern } from "../../../../constants/ui/backgrounds/patternBg";
 import InputField from "../../../../constants/ui/inputs/inputField";
 import ThemedView from "../../../../constants/ui/themes/themedView";
@@ -12,11 +12,11 @@ import { KeyboardAvoidingView, Platform } from "react-native";
 import MessageModal from "../../../../constants/ui/modals/successModal";
 import { JSX, useEffect } from "react";
 import React from "react";
-import UseRequestPasswordResetOtp from "../../hooks/useRequestPasswordResetOtpForm";
+import UseRequestEmailVerificationOtp from "../../hooks/useRequestEmailVerificationForm";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-export default function RequestPasswordResetOtpScreen() {
+export default function RequestEmailOtpScreen() {
   const router = useRouter();
   const {
     email,
@@ -30,10 +30,10 @@ export default function RequestPasswordResetOtpScreen() {
     setModalVisible,
     modalType,
     handleModalConfirm,
-  } = UseRequestPasswordResetOtp();
+  } = UseRequestEmailVerificationOtp();
 
   const handleBack = () => {
-    router.replace('/main/login');
+    router.replace('/main/welcome');
   };
 
   const renderActionButton = (): JSX.Element => {
@@ -71,8 +71,8 @@ export default function RequestPasswordResetOtpScreen() {
           <BackButton onPress={handleBack}/>
           
           <ContentSection 
-            title="Fogort your password?"
-            subtitle="Enter your Email to proceed"
+            title="Verify your email"
+            subtitle="Enter your Email to receive verification code"
             containerStyle={{ marginTop: 20, marginBottom: 20}} 
             textContainerStyle={{width: '100%' }}
             titleStyle={{ fontSize: 22, alignSelf:'flex-start' }}
@@ -106,7 +106,6 @@ export default function RequestPasswordResetOtpScreen() {
             keyboardType="email-address"
             autoCapitalize="none"
           />
-
 
           {renderActionButton()}
           

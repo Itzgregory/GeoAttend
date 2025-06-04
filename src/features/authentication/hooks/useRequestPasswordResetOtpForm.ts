@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import useCustomBackHandler from "../../../constants/hooks/useCustomBackHandler";
-import { handleRequestPasswordResetOtp } from "../service/requestPasswordResetOtpService";
-import RequestPasswordResetOtpFormData from "../type/passwordResetType";
+import { handleRequestPasswordResetOtp } from "../service/OtpRequestService";
+import RequestOtpFormData from "../type/RequestOtpType";
 
 
 interface UseRequestPasswordResetOtpFormReturn {
@@ -41,7 +41,7 @@ const UseRequestPasswordResetOtp = (): UseRequestPasswordResetOtpFormReturn => {
   };
 
   const onSubmit = async () => {
-    const formData: RequestPasswordResetOtpFormData = { email };
+    const formData: RequestOtpFormData = { email };
     setLoading(true);
     setError(null);
     setSuccessMessage(null);
@@ -82,7 +82,7 @@ const UseRequestPasswordResetOtp = (): UseRequestPasswordResetOtpFormReturn => {
     if (modalType === "success" && successMessage) {
       resetForm();
       router.replace({
-        pathname: "main/authentication/passwordResetOtpVerification",
+        pathname: "main/authentication/verifyPasswordResetOtp",
         params: { email },
       });
     }

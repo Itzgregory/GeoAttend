@@ -2,7 +2,7 @@ import React from 'react';
 import Welcome from "../../src/features/splashOnboardingScreens/screen/welcome"
 import useCustomBackHandler from '../../src/constants/hooks/useCustomBackHandler';
 
-const onboarding1 = () => {
+const WelcomePage = () => {
   useCustomBackHandler({ replaceRoute: "/main/exit" });
   return (
     <>
@@ -11,4 +11,4 @@ const onboarding1 = () => {
   )
 }
 
-export default onboarding1
+export default WelcomePage

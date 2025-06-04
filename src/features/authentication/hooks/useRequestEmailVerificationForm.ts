@@ -1,16 +1,12 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
-import LoginFormData from "../type/loginTypes";
 import useCustomBackHandler from "../../../constants/hooks/useCustomBackHandler";
-import { handleLogin } from "../service/loginService";
+import RequestOtpFormData from "../type/RequestOtpType";
+import { handleRequestEmailVerificationOtp } from "../service/OtpRequestService";
 
-interface UseLoginFormReturn {
+interface UseRequestEmailVerificationOtpFormReturn {
   email: string;
   setEmail: (value: string) => void;
-  password: string;
-  setPassword: (value: string) => void;
-  showPassword: boolean;
-  setShowPassword: (value: boolean) => void;
   error: string | null;
   successMessage: string | null;
   loading: boolean;
@@ -22,33 +18,28 @@ interface UseLoginFormReturn {
   handleModalConfirm: () => Promise<void>;
 }
 
-const useLoginForm = (): UseLoginFormReturn => {
+const UseRequestEmailVerificationOtp = (): UseRequestEmailVerificationOtpFormReturn => {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<"success" | "error" | null>(null);
-  const [verificationNeeded, setVerificationNeeded] = useState<boolean>(false);
 
-  useCustomBackHandler({ replaceRoute: "/main/welcome" });
+  useCustomBackHandler({ replaceRoute: "/main/login" });
 
-  const allInputFilled = email.trim() !== "" && password.trim() !== "";
+  const allInputFilled = email.trim() !== "";
 
   const resetForm = () => {
     setEmail("");
-    setPassword("");
-    setShowPassword(false);
     setError(null);
     setSuccessMessage(null);
-    console.log("Login form reset");
+    console.log("Request email verification otp form reset");
   };
 
   const onSubmit = async () => {
-    const formData: LoginFormData = { email, password };
+    const formData: RequestOtpFormData = { email };
     setLoading(true);
     setError(null);
     setSuccessMessage(null);
@@ -56,28 +47,27 @@ const useLoginForm = (): UseLoginFormReturn => {
     setModalType(null);
 
     try {
-      const response = await handleLogin(formData);
-      console.log("Login API response:", response);
-
-      if (response.status === 428 && response.success === false) {
-        setError("Account verification required. Please confirm to proceed.");
-        setModalType("error");
-        setModalVisible(true);
-        setVerificationNeeded(true);
-        return;
-      }
-
+      const response = await handleRequestEmailVerificationOtp(formData);
+      console.log("Request email verification otp API response:", response);
       if (response.success) {
-        setSuccessMessage(response.message || "Login successful!");
+        setSuccessMessage(response.message || "Request email verification otp successful! Please verify your email.");
         setModalType("success");
         setModalVisible(true);
       } else {
-        setError(response.message || "Login failed");
+        setError(response.message || "Request email verification otp failed");
         setModalType("error");
         setModalVisible(true);
       }
     } catch (err) {
-      setError("An error occurred during login.");
+      if (typeof err === "object" && err !== null && "message" in err && typeof (err as any).message === "string") {
+        if ((err as any).message.includes("Network Error")) {
+          setError("Network error. Please check your internet connection and try again.");
+        } else {
+          setError((err as any).message || "Request email verification otp failed");
+        }
+      } else {
+        setError("Request email verification otp failed");
+      }
       setModalType("error");
       setModalVisible(true);
     } finally {
@@ -87,16 +77,10 @@ const useLoginForm = (): UseLoginFormReturn => {
 
   const handleModalConfirm = async () => {
     setModalVisible(false);
-
-    if (verificationNeeded) {
-      router.replace("/main/authentication/requestEmailVerificationOtp");
-      return;
-    }
-
     if (modalType === "success" && successMessage) {
       resetForm();
       router.replace({
-        pathname: "main/authentication/role",
+        pathname: "main/authentication/verifyEmailOtp",
         params: { email },
       });
     }
@@ -105,10 +89,6 @@ const useLoginForm = (): UseLoginFormReturn => {
   return {
     email,
     setEmail,
-    password,
-    setPassword,
-    showPassword,
-    setShowPassword,
     error,
     successMessage,
     loading,
@@ -121,4 +101,4 @@ const useLoginForm = (): UseLoginFormReturn => {
   };
 };
 
-export default useLoginForm;
+export default UseRequestEmailVerificationOtp;

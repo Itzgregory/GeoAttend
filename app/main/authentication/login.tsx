@@ -6,7 +6,7 @@ import LoginScreen from "../../../src/features/authentication/screen/login/login
 
 const StyledView = styled(View);
 
-export default function Login() {
+export default function LoginPage() {
   useCustomBackHandler({ replaceRoute: "/main/welcome" });
   return ( 
     <>

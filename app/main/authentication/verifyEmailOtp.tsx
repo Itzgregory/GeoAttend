@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocalSearchParams } from "expo-router";
-import EmailOtpVerificationScreen from "../../../src/features/authentication/screen/otp/EmailVerificationScreen";
+import EmailOtpVerificationScreen from "../../../src/features/authentication/screen/otp/verifyEmailOtpScreen";
 import useCustomBackHandler from "../../../src/constants/hooks/useCustomBackHandler";
 
 

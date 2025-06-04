@@ -4,7 +4,7 @@ import useCustomBackHandler from "../../../../constants/hooks/useCustomBackHandl
 
 
 export default function PasswordResetOtpVerificationScreen({ email }: { email: string }) {
-  useCustomBackHandler({ replaceRoute: "/main/requestPasswordResetOtpVerification" });
+   useCustomBackHandler({ replaceRoute: "/main/welcome/requestPasswordResetOtp" });
 
   useEffect(() => {
     console.log("PasswordResetOtpVerificationScreen received email:", email); 

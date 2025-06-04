@@ -6,7 +6,7 @@ import useCustomBackHandler from "../../../src/constants/hooks/useCustomBackHand
 
 const StyledView = styled(View);
 
-export default function Register() {
+export default function RegisterPage() {
   useCustomBackHandler({ replaceRoute: "/main/welcome" });
   return ( 
     <>

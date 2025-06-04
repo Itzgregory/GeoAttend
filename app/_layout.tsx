@@ -20,11 +20,12 @@ export default function RootLayout() {
           <Stack.Screen name='onboarding/onboarding2' options={{headerShown: false }} />
           <Stack.Screen name='onboarding/onboarding3' options={{headerShown: false }} />
           <Stack.Screen name='main/welcome' options={{headerShown: false }} />
-          <Stack.Screen name='main/authentication/login' options={{headerShown: false }} />
           <Stack.Screen name='main/authentication/register' options={{headerShown: false }} />
-          <Stack.Screen name='main/authentication/accountVerification' options={{headerShown: false }} />
+          <Stack.Screen name='main/authentication/login' options={{headerShown: false }} />
+          <Stack.Screen name='main/authentication/requestEmailVerificationOtp' options={{headerShown: false }} />
+          <Stack.Screen name='main/authentication/verifyEmailOtp' options={{headerShown: false }} />
           <Stack.Screen name='main/authentication/requestPasswordResetOtp' options={{headerShown: false }} />
-          <Stack.Screen name='main/authentication/passwordResetOtpVerification' options={{headerShown: false }} />
+          <Stack.Screen name='main/authentication/verifyPasswordResetOtp' options={{headerShown: false }} />
       </Stack>
     </>
   );

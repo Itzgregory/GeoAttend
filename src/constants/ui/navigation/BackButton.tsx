@@ -29,7 +29,7 @@ const BackButton: React.FC<BackButtonProps> = ({
     }
   };
 
-  const topPosition = insets.top + 20;
+  const topPosition = insets.top + 15;
 
   return (
     <TouchableOpacity
@@ -39,7 +39,7 @@ const BackButton: React.FC<BackButtonProps> = ({
           backgroundColor: isDisabled ? "#A9A9A9" : backgroundColor,
           width: size,
           height: size,
-          borderRadius: size / 2,
+          borderRadius: size / 4,
           top: topPosition,
         },
         style,
